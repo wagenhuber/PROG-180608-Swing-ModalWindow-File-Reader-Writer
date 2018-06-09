@@ -11,13 +11,13 @@ import java.io.IOException;
 
 public class fenster extends JFrame {
 
-    private JMenuItem jmitemBeenden;
+    private JMenuItem jmitemBeenden, jmitemNeu;
     private JMenu jmenuDatei;
     private JMenuBar jmenuBar;
     private JTable table;
     private MyTableModel tableModel;
     private JScrollPane scrollPane;
-    private JButton jbtSave, jbtnLoad;
+    private JButton jbtSave, jbtnLoad, jbtnNeuerDatensatz;
     private JPanel jPanelNorth;
     private JFileChooser jFileChooser;
 
@@ -32,8 +32,10 @@ public class fenster extends JFrame {
     }
 
     private void initMenu() {
+        jmitemNeu = new JMenuItem("Neu");
         jmitemBeenden = new JMenuItem("Exit");
         jmenuDatei = new JMenu("Datei");
+        jmenuDatei.add(jmitemNeu);
         jmenuDatei.add(jmitemBeenden);
         jmenuBar = new JMenuBar();
         jmenuBar.add(jmenuDatei);
@@ -55,6 +57,10 @@ public class fenster extends JFrame {
         jPanelNorth.add(jbtSave);
         jbtnLoad = new JButton("Load");
         jPanelNorth.add(jbtnLoad);
+        jbtnNeuerDatensatz = new JButton("Neuer Datensatz");
+        jPanelNorth.add(jbtnNeuerDatensatz);
+
+
         this.add(jPanelNorth, BorderLayout.NORTH);
 
 
@@ -70,6 +76,21 @@ public class fenster extends JFrame {
             }
         });
 
+
+        jbtnNeuerDatensatz.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                new addAuto(tableModel);
+            }
+        });
+
+        jmitemNeu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                neu();
+            }
+        });
 
         jmitemBeenden.addActionListener(new ActionListener() {
             @Override
@@ -99,6 +120,15 @@ public class fenster extends JFrame {
                 }
             }
         });
+    }
+
+    private void neu() {
+        int result = JOptionPane.showConfirmDialog(this, "Nicht gespeichert Daten gehen verloren...", "Neue Tabelle anlegen", JOptionPane.YES_NO_OPTION);
+        if (result == 1) {
+            return;
+        }
+        tableModel = new MyTableModel();
+        table.setModel(tableModel);
     }
 
     private void laden() throws IOException {

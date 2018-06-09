@@ -14,7 +14,7 @@ public class MyTableModel extends AbstractTableModel {
 
     public MyTableModel() {
         this.autoListe = new ArrayList<>();
-        autoListe.add(new Auto("RO-GW-321", "Audi A3", "Wagenhuber", 105));
+        //autoListe.add(new Auto("RO-GW-321", "Audi A3", "Wagenhuber", 105));
 
     }
 
@@ -70,22 +70,25 @@ public class MyTableModel extends AbstractTableModel {
 
     public void laden(File file) throws IOException {
         BufferedReader bw = new BufferedReader(new FileReader(file));
-
-
-        while (bw != null) {
-            String line = bw.readLine();
-            String splits[] = null;
-            if (line != null) {
-                splits = line.split(";");
-            }
+        String line = bw.readLine();//Lesen für ersten Durchlauf!
+        while (line != null) {
+            String splits[] = line.split(";");
             Auto auto = new Auto(splits[0], splits[1], splits[2], Integer.valueOf(splits[3]));
             System.out.println("Auto aus Datei:");
             System.out.println(auto.toString());
             autoListe.add(auto);
-
+            line = bw.readLine();//erneutes Lesen bereits für nächsten Durchlauf!
         }
+
         if (bw != null) {
             bw.close();
         }
+        this.fireTableDataChanged();
+    }
+
+
+    public void addAutoToList(Auto auto) {
+        this.autoListe.add(auto);
+        this.fireTableDataChanged();
     }
 }
