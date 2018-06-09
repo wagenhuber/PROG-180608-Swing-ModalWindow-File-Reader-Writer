@@ -16,6 +16,7 @@ public class addAuto extends JDialog {
     private JButton jbtnSave, jbtnCancel;
     private JPanel jpCenter1, jpCenter2, jpCenter3, jpCenter4, jpCenter5;
     private MyTableModel tableModel;
+    //private JComboBox<Auto> jComboBox;
 
     public addAuto(MyTableModel tableModel) throws HeadlessException {
 

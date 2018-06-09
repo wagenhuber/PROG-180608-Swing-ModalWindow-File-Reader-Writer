@@ -5,6 +5,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MyTableModel extends AbstractTableModel {
@@ -90,5 +91,17 @@ public class MyTableModel extends AbstractTableModel {
     public void addAutoToList(Auto auto) {
         this.autoListe.add(auto);
         this.fireTableDataChanged();
+    }
+
+    public void loeschen(String bezeichnung) {
+        Iterator<Auto> iterator = autoListe.iterator();
+        while (iterator.hasNext()) {
+            Auto auto = iterator.next();
+            if (auto.getEigentuemer().equals(bezeichnung)) {
+                iterator.remove();
+                fireTableDataChanged();
+                return;
+            }
+        }
     }
 }

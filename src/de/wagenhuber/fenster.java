@@ -17,7 +17,7 @@ public class fenster extends JFrame {
     private JTable table;
     private MyTableModel tableModel;
     private JScrollPane scrollPane;
-    private JButton jbtSave, jbtnLoad, jbtnNeuerDatensatz;
+    private JButton jbtSave, jbtnLoad, jbtnNeuerDatensatz, jbtnDatensatzLoeschen;
     private JPanel jPanelNorth;
     private JFileChooser jFileChooser;
 
@@ -59,7 +59,8 @@ public class fenster extends JFrame {
         jPanelNorth.add(jbtnLoad);
         jbtnNeuerDatensatz = new JButton("Neuer Datensatz");
         jPanelNorth.add(jbtnNeuerDatensatz);
-
+        jbtnDatensatzLoeschen = new JButton("Löschen");
+        jPanelNorth.add(jbtnDatensatzLoeschen);
 
         this.add(jPanelNorth, BorderLayout.NORTH);
 
@@ -76,6 +77,12 @@ public class fenster extends JFrame {
             }
         });
 
+        jbtnDatensatzLoeschen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loeschen();
+            }
+        });
 
         jbtnNeuerDatensatz.addActionListener(new ActionListener() {
             @Override
@@ -120,6 +127,12 @@ public class fenster extends JFrame {
                 }
             }
         });
+    }
+
+    private void loeschen() {
+        int rowCount = table.getSelectedRow();
+        String bezeichnung = ((String) tableModel.getValueAt(rowCount, 0));
+        tableModel.loeschen(bezeichnung);
     }
 
     private void neu() {

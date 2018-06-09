@@ -9,7 +9,7 @@ public class Auto {
     private String model;
     private int ps;
 
-    public Auto(String kennzeichen, String model, String eigentuemer, int ps) {
+    public Auto(String eigentuemer, String kennzeichen, String model, int ps) {
         this.kennzeichen = kennzeichen;
         this.model = model;
         this.eigentuemer = eigentuemer;
