@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class fenster extends JFrame {
 
@@ -17,11 +18,13 @@ public class fenster extends JFrame {
     private JTable table;
     private MyTableModel tableModel;
     private JScrollPane scrollPane;
-    private JButton jbtSave, jbtnLoad, jbtnNeuerDatensatz, jbtnDatensatzLoeschen;
+    private JButton jbtSave, jbtnLoad, jbtnNeuerDatensatz, jbtnDatensatzLoeschen, jbtnLoadFromDB;
     private JPanel jPanelNorth;
     private JFileChooser jFileChooser;
+    private DAO dao;
 
-    public fenster() throws HeadlessException {
+
+    public fenster() throws HeadlessException, SQLException {
 
         initMenu();
         initComponents();
@@ -57,6 +60,8 @@ public class fenster extends JFrame {
         jPanelNorth.add(jbtSave);
         jbtnLoad = new JButton("Load");
         jPanelNorth.add(jbtnLoad);
+        jbtnLoadFromDB = new JButton("Load from DB");
+        jPanelNorth.add(jbtnLoadFromDB);
         jbtnNeuerDatensatz = new JButton("Neuer Datensatz");
         jPanelNorth.add(jbtnNeuerDatensatz);
         jbtnDatensatzLoeschen = new JButton("Löschen");
@@ -76,6 +81,18 @@ public class fenster extends JFrame {
                 beenden();
             }
         });
+
+        jbtnLoadFromDB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    new DAO(tableModel);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
 
         jbtnDatensatzLoeschen.addActionListener(new ActionListener() {
             @Override
@@ -168,7 +185,7 @@ public class fenster extends JFrame {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         new fenster();
     }
 }
